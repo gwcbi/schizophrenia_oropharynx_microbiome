@@ -13,7 +13,7 @@ def get_tax_data(taxid):
  
 start = time.time()
 bacteria_taxonomy = open('pathoscope_lineages.csv', 'w')
-header = ['superkingdom', 'kingdom', 'phylum', 'class', 'order', 'suborder', 'family', 'subfamily', 'genus', 'subgenus', 'species', 'no rank']
+header = ['OTU', 'superkingdom', 'kingdom', 'phylum', 'class', 'order', 'suborder', 'family', 'subfamily', 'genus', 'subgenus', 'species', 'no rank']
 w = csv.writer(bacteria_taxonomy)
 w.writerow(header)
 Entrez.email = "castronallar@gmail.com"
@@ -25,7 +25,7 @@ for line in lines:
 	search = Entrez.efetch(id = str(line), db = "taxonomy", retmode = "xml")
 	data = Entrez.read(search)
 	lineage = {d['Rank']:d['ScientificName'] for d in data[0]['LineageEx'] if d['Rank'] in ['superkingdom','kingdom','phylum','class','order','suborder','family','subfamily','genus','subgenus','species', 'no rank']}
-	line = []
+	line = [str(line)]
 	if 'superkingdom' in lineage:
 		line.append(lineage['superkingdom'])
 	else:
